@@ -1,88 +1,89 @@
 import { Link } from 'react-router-dom';
-import { MapPin, Phone, Mail, Clock } from 'lucide-react';
+import { Facebook, Instagram, Youtube } from 'lucide-react';
 
-const Footer = () => {
-  return (
-    <footer className="footer">
-      <div className="container">
-        <div className="footer__grid">
-          {/* Brand */}
-          <div className="footer__brand">
-            <div className="footer__brand-name">
-              🧶 Len Sợi <span>Dung Nhi</span>
-            </div>
-            <p className="footer__brand-description">
-              Chuyên cung cấp len sợi cao cấp, phụ kiện đan móc và các khóa học
-              đan len cho người yêu thích handmade. Chất lượng tốt nhất, giá cả
-              hợp lý nhất.
-            </p>
-            <div className="footer__socials">
-              <a href="#" className="footer__social-link" aria-label="Facebook">
-                <span>f</span>
+const Footer = () => (
+  <footer className="bg-[#171717] text-white">
+    <div className="max-w-7xl mx-auto px-6 py-16">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+        {/* Brand */}
+        <div>
+          <p className="font-serif text-xl font-bold tracking-widest uppercase mb-4">Dung Nhi</p>
+          <p className="text-sm text-[#6B7280] leading-relaxed max-w-xs">
+            Handmade với tình yêu — len sợi cao cấp và thú bông handmade từ Việt Nam.
+          </p>
+          <div className="flex gap-4 mt-6">
+            {[
+              { Icon: Facebook, href: '#', label: 'Facebook' },
+              { Icon: Instagram, href: '#', label: 'Instagram' },
+              { Icon: Youtube, href: '#', label: 'YouTube' },
+            ].map(({ Icon, href, label }) => (
+              <a
+                key={label}
+                href={href}
+                aria-label={label}
+                className="text-[#6B7280] hover:text-[#D4829A] transition-colors duration-200"
+              >
+                <Icon size={18} />
               </a>
-              <a href="#" className="footer__social-link" aria-label="Instagram">
-                <span>ig</span>
-              </a>
-              <a href="#" className="footer__social-link" aria-label="TikTok">
-                <span>tk</span>
-              </a>
-              <a href="#" className="footer__social-link" aria-label="YouTube">
-                <span>yt</span>
-              </a>
-            </div>
-          </div>
-
-          {/* Quick Links */}
-          <div>
-            <h4 className="footer__heading">Len Sợi</h4>
-            <div className="footer__links">
-              <Link to="/len-soi?category=len-cotton" className="footer__link">Len Cotton</Link>
-              <Link to="/len-soi?category=len-acrylic" className="footer__link">Len Acrylic</Link>
-              <Link to="/len-soi?category=len-wool" className="footer__link">Len Wool</Link>
-              <Link to="/len-soi?category=phu-kien" className="footer__link">Phụ kiện</Link>
-            </div>
-          </div>
-
-          {/* Thu Bong */}
-          <div>
-            <h4 className="footer__heading">Thú Bông</h4>
-            <div className="footer__links">
-              <Link to="/thu-bong?category=gau-bong" className="footer__link">Gấu Bông</Link>
-              <Link to="/thu-bong?category=thu-nho" className="footer__link">Thú Nhỏ</Link>
-              <Link to="/thu-bong?category=nhan-vat" className="footer__link">Nhân Vật</Link>
-              <Link to="/thu-bong?category=moc-khoa" className="footer__link">Móc Khóa</Link>
-            </div>
-          </div>
-
-          {/* Contact */}
-          <div>
-            <h4 className="footer__heading">Liên hệ</h4>
-            <div className="footer__contact-item">
-              <MapPin size={16} className="footer__contact-icon" />
-              <span>123 Nguyễn Huệ, Quận 1, TP.HCM</span>
-            </div>
-            <div className="footer__contact-item">
-              <Phone size={16} className="footer__contact-icon" />
-              <span>0901 234 567</span>
-            </div>
-            <div className="footer__contact-item">
-              <Mail size={16} className="footer__contact-icon" />
-              <span>hello@lensoidungnhi.vn</span>
-            </div>
-            <div className="footer__contact-item">
-              <Clock size={16} className="footer__contact-icon" />
-              <span>T2 - CN: 8:00 - 21:00</span>
-            </div>
+            ))}
           </div>
         </div>
 
-        <div className="footer__bottom">
-          <p>© 2026 Len Sợi Dung Nhi. Tất cả quyền được bảo lưu.</p>
-          <p>Made with ❤️ in Vietnam</p>
+        {/* Len Sợi */}
+        <div>
+          <p className="text-xs tracking-widest uppercase font-semibold mb-6">Len Sợi</p>
+          <ul className="space-y-3">
+            {['Len Cotton', 'Len Acrylic', 'Len Wool', 'Phụ Kiện'].map(item => (
+              <li key={item}>
+                <Link to="/len-soi" className="text-sm text-[#6B7280] hover:text-white transition-colors duration-200">
+                  {item}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Thú Bông */}
+        <div>
+          <p className="text-xs tracking-widest uppercase font-semibold mb-6">Thú Bông</p>
+          <ul className="space-y-3">
+            {['Gấu Bông', 'Thú Nhỏ', 'Nhân Vật', 'Móc Chìa Khóa'].map(item => (
+              <li key={item}>
+                <Link to="/thu-bong" className="text-sm text-[#6B7280] hover:text-white transition-colors duration-200">
+                  {item}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Liên hệ */}
+        <div>
+          <p className="text-xs tracking-widest uppercase font-semibold mb-6">Liên Hệ</p>
+          <ul className="space-y-3 text-sm text-[#6B7280]">
+            <li>📍 TP. Hồ Chí Minh, Việt Nam</li>
+            <li>📞 0123 456 789</li>
+            <li>✉️ hello@dungnhi.vn</li>
+            <li>🕐 8:00 – 21:00 hàng ngày</li>
+          </ul>
         </div>
       </div>
-    </footer>
-  );
-};
+
+      {/* Big brand text */}
+      <div className="border-t border-[#2a2a2a] pt-8 overflow-hidden">
+        <p
+          className="font-serif font-black text-center text-[#6B7280] tracking-[0.3em] uppercase select-none"
+          style={{ fontSize: 'clamp(2.5rem, 10vw, 8rem)', opacity: 0.15 }}
+        >
+          DUNG NHI
+        </p>
+      </div>
+
+      <p className="text-center text-xs text-[#6B7280] mt-4">
+        © 2024 Len Sợi Dung Nhi. All rights reserved.
+      </p>
+    </div>
+  </footer>
+);
 
 export default Footer;
