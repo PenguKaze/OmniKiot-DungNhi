@@ -1,260 +1,158 @@
+import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Truck, Shield, Gift, Headphones } from 'lucide-react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import ScrollReveal from '../components/animation/ScrollReveal';
+import TextReveal from '../components/animation/TextReveal';
+import ParallaxImage from '../components/animation/ParallaxImage';
 import ProductCard from '../components/ProductCard';
-import { products, categories, productTypes, getProductsByType, getCategoriesByType } from '../data/products';
+import NewsletterForm from '../components/ui/NewsletterForm';
+import { getProductsByType } from '../data/products';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const Home = () => {
-  const featuredProducts = products.filter(p => p.badge === 'new' || p.rating >= 4.7).slice(0, 8);
+  const heroTextRef = useRef(null);
+  const heroBigRef = useRef(null);
+  const heroSubRef = useRef(null);
+  const heroBtnRef = useRef(null);
+
+  const featuredProducts = [
+    ...getProductsByType('len-soi').slice(0, 2),
+    ...getProductsByType('thu-bong').slice(0, 2),
+  ];
+
+  useEffect(() => {
+    const tl = gsap.timeline({ delay: 0.2 });
+    tl.fromTo(heroSubRef.current, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' })
+      .fromTo(heroBtnRef.current, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }, '-=0.2')
+      .fromTo(heroBigRef.current, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }, '-=0.3');
+
+    gsap.to(heroBigRef.current, {
+      y: -60,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '#hero',
+        start: 'top top',
+        end: 'bottom top',
+        scrub: true,
+      },
+    });
+
+    return () => ScrollTrigger.getAll().forEach(t => t.kill());
+  }, []);
 
   return (
     <main>
-      {/* ===== HERO ===== */}
-      <section className="hero" id="hero">
-        <div className="hero__bg-shapes">
-          <div className="hero__shape hero__shape--1" />
-          <div className="hero__shape hero__shape--2" />
-          <div className="hero__shape hero__shape--3" />
+      {/* Hero */}
+      <section
+        id="hero"
+        className="relative h-screen flex items-center justify-center overflow-hidden"
+        style={{ paddingTop: '80px' }}
+      >
+        <div className="absolute inset-0 z-0">
+          <img
+            src="/background_1.png"
+            alt="Hero"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
         </div>
 
-        <div className="container hero__container">
-          <div className="hero__content">
-            <div className="hero__tag">
-              <span className="hero__tag-dot" />
-              Chào mừng đến với Len Sợi Dung Nhi
-            </div>
-
-            <h1 className="hero__title">
-              Khám phá thế giới <span>len sợi</span> đầy màu sắc
-            </h1>
-
-            <p className="hero__description">
-              Len sợi cao cấp nhập khẩu và trong nước, đa dạng chủng loại từ cotton,
-              acrylic đến wool. Biến ý tưởng sáng tạo của bạn thành hiện thực.
-            </p>
-
-            <div className="hero__buttons">
-              <Link to="/len-soi" className="btn btn-primary btn-lg">
-                Khám phá ngay
-                <ArrowRight size={18} />
-              </Link>
-              <Link to="/gioi-thieu" className="btn btn-secondary btn-lg">
-                Về chúng tôi
-              </Link>
-            </div>
-
-            <div className="hero__stats">
-              <div className="hero__stat">
-                <div className="hero__stat-number">500+</div>
-                <div className="hero__stat-label">Sản phẩm</div>
-              </div>
-              <div className="hero__stat">
-                <div className="hero__stat-number">10K+</div>
-                <div className="hero__stat-label">Khách hàng</div>
-              </div>
-              <div className="hero__stat">
-                <div className="hero__stat-number">4.9</div>
-                <div className="hero__stat-label">Đánh giá</div>
-              </div>
-            </div>
-          </div>
-
-          <div className="hero__visual">
-            <div className="hero__image-grid">
-              <div className="hero__image-item">
-                <img
-                  src="https://images.unsplash.com/photo-1582719508461-905c673771fd?w=400&h=560&fit=crop"
-                  alt="Len sợi nhiều màu sắc"
-                />
-              </div>
-              <div className="hero__image-item">
-                <img
-                  src="https://images.unsplash.com/photo-1544967082-d9d25d867d66?w=400&h=560&fit=crop"
-                  alt="Cuộn len wool"
-                />
-              </div>
-              <div className="hero__image-item">
-                <img
-                  src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=400&h=560&fit=crop"
-                  alt="Phụ kiện đan len"
-                />
-              </div>
-              <div className="hero__image-item">
-                <img
-                  src="https://images.unsplash.com/photo-1585250003680-41a6e189ec7f?w=400&h=560&fit=crop"
-                  alt="Sản phẩm len handmade"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ===== CATEGORIES - LEN SỢI ===== */}
-      <section className="categories" id="categories-len">
-        <div className="container">
-          <h2 className="section-title">🧶 Len Sợi</h2>
-          <p className="section-subtitle">
-            Khám phá các loại len sợi và phụ kiện đan móc chất lượng cao
+        <div className="relative z-10 text-center text-white px-6 max-w-4xl mx-auto">
+          <TextReveal
+            as="h1"
+            className="font-serif text-4xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6"
+            triggerOnLoad
+          >
+            Thế Hệ Mới Của Len Sợi Handmade
+          </TextReveal>
+          <p
+            ref={heroSubRef}
+            className="text-base md:text-lg text-white/80 mb-8 max-w-xl mx-auto"
+            style={{ opacity: 0 }}
+          >
+            Len sợi cao cấp và thú bông handmade — làm nên từ tình yêu và sự tỉ mỉ
           </p>
-
-          <div className="categories__grid">
-            {getCategoriesByType('len-soi').map((cat, index) => (
-              <Link
-                to={`/len-soi?category=${cat.slug}`}
-                className={`category-card animate-fadeInUp delay-${index + 1}`}
-                key={cat.id}
-                id={`category-${cat.slug}`}
-              >
-                <img
-                  src={cat.image}
-                  alt={cat.name}
-                  className="category-card__image"
-                  loading="lazy"
-                />
-                <div className="category-card__overlay">
-                  <h3 className="category-card__name">{cat.name}</h3>
-                  <p className="category-card__count">
-                    {getProductsByType('len-soi').filter(p => p.category === cat.slug).length} sản phẩm
-                  </p>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ===== CATEGORIES - THÚ BÔNG ===== */}
-      <section className="categories" id="categories-thu-bong">
-        <div className="container">
-          <h2 className="section-title">🧸 Thú Bông</h2>
-          <p className="section-subtitle">
-            Thú bông handmade đan móc từ len sợi, quà tặng độc đáo và dễ thương
-          </p>
-
-          <div className="categories__grid">
-            {getCategoriesByType('thu-bong').map((cat, index) => (
-              <Link
-                to={`/thu-bong?category=${cat.slug}`}
-                className={`category-card animate-fadeInUp delay-${index + 1}`}
-                key={cat.id}
-                id={`category-${cat.slug}`}
-              >
-                <img
-                  src={cat.image}
-                  alt={cat.name}
-                  className="category-card__image"
-                  loading="lazy"
-                />
-                <div className="category-card__overlay">
-                  <h3 className="category-card__name">{cat.name}</h3>
-                  <p className="category-card__count">
-                    {getProductsByType('thu-bong').filter(p => p.category === cat.slug).length} sản phẩm
-                  </p>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ===== FEATURED PRODUCTS ===== */}
-      <section className="featured" id="featured">
-        <div className="container">
-          <h2 className="section-title">Sản phẩm nổi bật</h2>
-          <p className="section-subtitle">
-            Những sản phẩm được yêu thích nhất tại Len Sợi Dung Nhi
-          </p>
-
-          <div className="featured__grid">
-            {featuredProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
-
-          <div className="featured__cta">
-            <Link to="/len-soi" className="btn btn-secondary">
-              Xem len sợi
-              <ArrowRight size={16} />
-            </Link>
-            <Link to="/thu-bong" className="btn btn-secondary" style={{marginLeft: '1rem'}}>
-              Xem thú bông
-              <ArrowRight size={16} />
+          <div ref={heroBtnRef} style={{ opacity: 0 }}>
+            <Link
+              to="/len-soi"
+              className="inline-flex items-center gap-2 px-8 py-4 border border-white text-white text-xs tracking-widest uppercase font-medium hover:bg-white hover:text-[#171717] transition-all duration-300"
+            >
+              Khám Phá Ngay
             </Link>
           </div>
         </div>
+
+        <div
+          ref={heroBigRef}
+          className="absolute bottom-0 left-0 right-0 z-10 text-center overflow-hidden pointer-events-none"
+          style={{ opacity: 0 }}
+        >
+          <p
+            className="font-serif font-black text-white tracking-[0.3em] uppercase leading-none"
+            style={{ fontSize: 'clamp(3rem, 15vw, 12rem)', opacity: 0.15 }}
+          >
+            DUNG NHI
+          </p>
+        </div>
       </section>
 
-      {/* ===== ABOUT ===== */}
-      <section className="about-section" id="about">
-        <div className="container">
-          <div className="about__grid">
-            <div className="about__image-container">
+      {/* Category Showcase */}
+      <section className="grid grid-cols-1 md:grid-cols-2">
+        {[
+          { label: 'LEN SỢI', sub: 'Khám phá bộ sưu tập', to: '/len-soi', img: '/background_1.png' },
+          { label: 'THÚ BÔNG', sub: 'Handmade với tình yêu', to: '/thu-bong', img: '/background_2.png' },
+        ].map(({ label, sub, to, img }, i) => (
+          <ScrollReveal key={label} delay={i * 0.15} y={40}>
+            <Link to={to} className="group relative block overflow-hidden aspect-[4/3]">
               <img
-                src="https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&h=450&fit=crop"
-                alt="Xưởng len sợi"
-                className="about__image"
-                loading="lazy"
+                src={img}
+                alt={label}
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               />
-              <div className="about__image-accent" />
-            </div>
-
-            <div className="about__content">
-              <h2>
-                Đam mê len sợi, <span>truyền cảm hứng</span> sáng tạo
-              </h2>
-              <p>
-                Len Sợi Dung Nhi được thành lập với sứ mệnh mang đến những sản phẩm
-                len sợi chất lượng cao nhất. Chúng tôi tuyển chọn kỹ lưỡng từng cuộn len
-                từ các nhà cung cấp uy tín trên toàn thế giới.
-              </p>
-              <p>
-                Với hơn 5 năm kinh nghiệm, chúng tôi hiểu rõ nhu cầu của người yêu
-                thích đan len và luôn cập nhật những xu hướng mới nhất.
-              </p>
-
-              <div className="about__features">
-                <div className="about__feature">
-                  <div className="about__feature-icon"><Truck size={20} /></div>
-                  <span className="about__feature-text">Giao hàng toàn quốc</span>
-                </div>
-                <div className="about__feature">
-                  <div className="about__feature-icon"><Shield size={20} /></div>
-                  <span className="about__feature-text">Cam kết chính hãng</span>
-                </div>
-                <div className="about__feature">
-                  <div className="about__feature-icon"><Gift size={20} /></div>
-                  <span className="about__feature-text">Quà tặng hấp dẫn</span>
-                </div>
-                <div className="about__feature">
-                  <div className="about__feature-icon"><Headphones size={20} /></div>
-                  <span className="about__feature-text">Hỗ trợ 24/7</span>
-                </div>
+              <div className="absolute inset-0 bg-black/30 group-hover:bg-black/50 transition-all duration-300" />
+              <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-center p-6">
+                <p className="font-serif text-3xl md:text-4xl font-bold tracking-wide mb-2">{label}</p>
+                <p className="text-sm text-white/80 mb-4">{sub}</p>
+                <span className="text-xs tracking-widest uppercase border-b border-white/60 pb-0.5 group-hover:border-white transition-all duration-200">
+                  Khám Phá →
+                </span>
               </div>
-            </div>
+            </Link>
+          </ScrollReveal>
+        ))}
+      </section>
+
+      {/* Featured Products */}
+      <section className="py-20 px-6 max-w-7xl mx-auto">
+        <ScrollReveal>
+          <div className="text-center mb-12">
+            <p className="text-xs tracking-widest uppercase text-[#6B7280] mb-3">Nổi Bật</p>
+            <h2 className="font-serif text-3xl md:text-4xl font-bold text-[#171717]">Sản Phẩm Nổi Bật</h2>
           </div>
+        </ScrollReveal>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {featuredProducts.map((product, i) => (
+            <ScrollReveal key={product.id} delay={i * 0.1}>
+              <ProductCard product={product} />
+            </ScrollReveal>
+          ))}
+        </div>
+        <div className="text-center mt-12">
+          <Link
+            to="/len-soi"
+            className="inline-flex items-center gap-2 px-8 py-3.5 border border-[#171717] text-xs tracking-widest uppercase font-medium hover:bg-[#171717] hover:text-white transition-all duration-300"
+          >
+            Xem Tất Cả Sản Phẩm
+          </Link>
         </div>
       </section>
 
-      {/* ===== NEWSLETTER ===== */}
-      <section className="newsletter" id="newsletter">
-        <div className="newsletter__card">
-          <h2 className="newsletter__title">Đăng ký nhận ưu đãi</h2>
-          <p className="newsletter__description">
-            Nhận ngay mã giảm giá 10% cho đơn hàng đầu tiên khi đăng ký email
-          </p>
-          <form className="newsletter__form" onSubmit={(e) => e.preventDefault()}>
-            <input
-              type="email"
-              className="newsletter__input"
-              placeholder="Nhập email của bạn..."
-              id="newsletter-email"
-            />
-            <button type="submit" className="newsletter__submit" id="newsletter-submit">
-              Đăng ký
-            </button>
-          </form>
-        </div>
-      </section>
+      {/* Newsletter */}
+      <ScrollReveal>
+        <NewsletterForm />
+      </ScrollReveal>
     </main>
   );
 };

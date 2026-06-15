@@ -1,146 +1,66 @@
-import { Link } from 'react-router-dom';
-import { ChevronRight, Heart, Award, Users, Sparkles, CheckCircle } from 'lucide-react';
+import ScrollReveal from '../components/animation/ScrollReveal';
+import ParallaxImage from '../components/animation/ParallaxImage';
 
-const milestones = [
-  { year: '2020', title: 'Khởi đầu', desc: 'Bắt đầu từ niềm đam mê đan móc len và chia sẻ với bạn bè.' },
-  { year: '2021', title: 'Cửa hàng đầu tiên', desc: 'Mở cửa hàng online bán len sợi và phụ kiện đan móc.' },
-  { year: '2023', title: 'Mở rộng', desc: 'Ra mắt dòng sản phẩm thú bông handmade và các khóa dạy nghề.' },
-  { year: '2024', title: 'Cộng đồng', desc: 'Xây dựng cộng đồng 5,000+ thành viên yêu len sợi.' },
-  { year: '2026', title: 'Hiện tại', desc: 'Tiếp tục phát triển với hơn 200 sản phẩm và 6 khóa học chuyên nghiệp.' },
+const VALUES = [
+  { icon: '✦', title: 'Chất Lượng Cao', desc: 'Chỉ chọn len sợi từ những thương hiệu uy tín, đảm bảo độ mềm mại và bền màu.' },
+  { icon: '♡', title: 'Làm Bằng Tay', desc: 'Mỗi sản phẩm đều được tạo ra thủ công, mang dấu ấn riêng và tình yêu của người làm.' },
+  { icon: '✿', title: 'Sáng Tạo Không Ngừng', desc: 'Liên tục cập nhật những mẫu mới, theo xu hướng và lắng nghe nhu cầu của khách hàng.' },
 ];
 
-const values = [
-  { icon: <Heart size={28} />, title: 'Tận tâm', desc: 'Mỗi sản phẩm đều được tạo ra với tình yêu và sự chỉn chu trong từng mũi đan.' },
-  { icon: <Award size={28} />, title: 'Chất lượng', desc: 'Chỉ sử dụng nguyên liệu len sợi chất lượng cao, an toàn và bền màu.' },
-  { icon: <Users size={28} />, title: 'Cộng đồng', desc: 'Xây dựng không gian chia sẻ, học hỏi và kết nối cho người yêu len sợi.' },
-  { icon: <Sparkles size={28} />, title: 'Sáng tạo', desc: 'Luôn cập nhật xu hướng mới nhất và sáng tạo những mẫu thiết kế độc đáo.' },
-];
+const About = () => (
+  <main style={{ paddingTop: '80px' }}>
+    {/* Hero */}
+    <div className="relative h-64 md:h-96 overflow-hidden flex items-center justify-center">
+      <ParallaxImage src="/background_1.png" alt="About hero" className="absolute inset-0 w-full h-full" />
+      <div className="absolute inset-0 bg-black/50" />
+      <h1 className="relative z-10 font-serif text-4xl md:text-6xl font-black text-white tracking-widest uppercase text-center px-6">
+        Giới Thiệu
+      </h1>
+    </div>
 
-const About = () => {
-  return (
-    <main className="about-page">
-      {/* Hero */}
-      <section className="about-hero">
-        <div className="container">
-          <div className="about-hero__breadcrumb">
-            <Link to="/">Trang chủ</Link>
-            <ChevronRight size={14} />
-            <span>Giới thiệu</span>
+    {/* Story section */}
+    <section className="max-w-6xl mx-auto px-6 py-20">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center mb-24">
+        <ScrollReveal y={40}>
+          <div className="aspect-[4/3] bg-[#F5F0EB] overflow-hidden">
+            <ParallaxImage src="/background_2.png" alt="Dung Nhi studio" className="w-full h-full" speed={0.2} />
           </div>
-          <div className="about-hero__content">
-            <span className="about-hero__tag">🧶 Về chúng tôi</span>
-            <h1 className="about-hero__title">
-              Len Sợi <span>Dung Nhi</span>
-            </h1>
-            <p className="about-hero__desc">
-              Nơi mỗi sợi len kể một câu chuyện — từ đam mê thủ công đến những sản phẩm 
-              handmade tràn đầy tình yêu và sự sáng tạo.
+        </ScrollReveal>
+        <ScrollReveal y={40} delay={0.15}>
+          <div>
+            <p className="text-xs tracking-widest uppercase text-[#D4829A] font-medium mb-4">Câu Chuyện Của Chúng Tôi</p>
+            <h2 className="font-serif text-3xl md:text-4xl font-bold text-[#171717] mb-6 leading-tight">
+              Từ Đam Mê Đến Thương Hiệu
+            </h2>
+            <p className="text-[#6B7280] leading-relaxed mb-4 text-sm">
+              Len Sợi Dung Nhi được thành lập từ tình yêu với nghề thủ công. Bắt đầu từ những cuộn len đầu tiên và đôi tay khéo léo, chúng tôi đã tạo ra hàng ngàn sản phẩm handmade độc đáo.
+            </p>
+            <p className="text-[#6B7280] leading-relaxed text-sm">
+              Mỗi sản phẩm là một câu chuyện — được dệt nên từ sự tỉ mỉ, tình yêu và tâm huyết của người thợ thủ công.
             </p>
           </div>
-        </div>
-      </section>
-
-      {/* Story */}
-      <section className="about-story">
-        <div className="container">
-          <div className="about-story__grid">
-            <div className="about-story__image">
-              <img 
-                src="https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&h=700&fit=crop" 
-                alt="Đan móc len" 
-              />
-              <div className="about-story__image-accent" />
-            </div>
-            <div className="about-story__text">
-              <h2 className="section-title">Câu chuyện của chúng tôi</h2>
-              <p>
-                <strong>Len Sợi Dung Nhi</strong> ra đời từ niềm đam mê giản dị — tình yêu 
-                với những cuộn len nhiều màu sắc và niềm vui khi tự tay tạo ra một sản phẩm ý nghĩa.
-              </p>
-              <p>
-                Từ những ngày đầu chỉ đan móc cho bạn bè và gia đình, chúng tôi nhận ra rằng 
-                mỗi mũi kim đan đều chứa đựng sự kiên nhẫn, sáng tạo và tình cảm. Đó là lý do 
-                chúng tôi muốn lan tỏa nghệ thuật đan móc đến nhiều người hơn.
-              </p>
-              <p>
-                Ngày nay, <strong>Dung Nhi</strong> không chỉ là cửa hàng len sợi — mà còn là 
-                nơi bạn có thể học đan móc từ cơ bản đến nâng cao, tìm nguồn cảm hứng sáng tạo, 
-                và kết nối với cộng đồng yêu thủ công khắp Việt Nam.
-              </p>
-              <div className="about-story__highlights">
-                <div className="about-story__highlight">
-                  <CheckCircle size={18} />
-                  <span>200+ sản phẩm len sợi & thú bông</span>
-                </div>
-                <div className="about-story__highlight">
-                  <CheckCircle size={18} />
-                  <span>1,100+ học viên đã tham gia khóa học</span>
-                </div>
-                <div className="about-story__highlight">
-                  <CheckCircle size={18} />
-                  <span>5,000+ thành viên cộng đồng</span>
-                </div>
-                <div className="about-story__highlight">
-                  <CheckCircle size={18} />
-                  <span>100% nguyên liệu chất lượng cao</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+        </ScrollReveal>
+      </div>
 
       {/* Values */}
-      <section className="about-values">
-        <div className="container">
-          <h2 className="section-title section-title--center">Giá trị cốt lõi</h2>
-          <p className="section-subtitle">Những nguyên tắc định hướng mọi hoạt động của chúng tôi</p>
-          <div className="about-values__grid">
-            {values.map((v, i) => (
-              <div className={`about-value-card animate-fadeInUp delay-${i + 1}`} key={i}>
-                <div className="about-value-card__icon">{v.icon}</div>
-                <h3 className="about-value-card__title">{v.title}</h3>
-                <p className="about-value-card__desc">{v.desc}</p>
-              </div>
-            ))}
-          </div>
+      <ScrollReveal>
+        <div className="text-center mb-12">
+          <h2 className="font-serif text-3xl font-bold text-[#171717]">Giá Trị Cốt Lõi</h2>
         </div>
-      </section>
-
-      {/* Timeline */}
-      <section className="about-timeline">
-        <div className="container">
-          <h2 className="section-title section-title--center">Hành trình phát triển</h2>
-          <div className="timeline">
-            {milestones.map((m, i) => (
-              <div className={`timeline__item ${i % 2 === 0 ? 'timeline__item--left' : 'timeline__item--right'}`} key={i}>
-                <div className="timeline__dot" />
-                <div className={`timeline__card animate-fadeInUp delay-${i + 1}`}>
-                  <span className="timeline__year">{m.year}</span>
-                  <h3 className="timeline__title">{m.title}</h3>
-                  <p className="timeline__desc">{m.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="about-cta">
-        <div className="container">
-          <div className="about-cta__card">
-            <h2>Hãy cùng chúng tôi tạo nên những điều đẹp đẽ 🧶</h2>
-            <p>Khám phá sản phẩm, tham gia khóa học hoặc liên hệ với chúng tôi ngay hôm nay!</p>
-            <div className="about-cta__buttons">
-              <Link to="/len-soi" className="btn btn-primary btn-lg">Xem sản phẩm</Link>
-              <Link to="/lien-he" className="btn btn-secondary btn-lg">Liên hệ ngay</Link>
+      </ScrollReveal>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+        {VALUES.map((v, i) => (
+          <ScrollReveal key={v.title} delay={i * 0.15}>
+            <div className="text-center">
+              <p className="text-3xl text-[#D4829A] mb-4">{v.icon}</p>
+              <h3 className="font-serif text-lg font-bold text-[#171717] mb-3">{v.title}</h3>
+              <p className="text-sm text-[#6B7280] leading-relaxed">{v.desc}</p>
             </div>
-          </div>
-        </div>
-      </section>
-    </main>
-  );
-};
+          </ScrollReveal>
+        ))}
+      </div>
+    </section>
+  </main>
+);
 
 export default About;

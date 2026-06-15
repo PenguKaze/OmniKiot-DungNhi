@@ -1,48 +1,25 @@
 import { Link } from 'react-router-dom';
-import {
-  ShoppingBag, Trash2, Plus, Minus, ArrowLeft,
-  Sparkles, Truck, Shield, Gift, X
-} from 'lucide-react';
+import { Trash2, ShoppingBag } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { formatPrice } from '../data/products';
 
 const Cart = () => {
-  const {
-    cartItems,
-    cartCount,
-    cartTotal,
-    cartOriginalTotal,
-    cartSavings,
-    removeFromCart,
-    updateQuantity,
-    clearCart,
-  } = useCart();
+  const { cartItems, removeFromCart, updateQuantity, clearCart, cartTotal, cartOriginalTotal, cartSavings } = useCart();
 
   if (cartItems.length === 0) {
     return (
-      <main className="cart-page">
-        <div className="container">
-          <div className="cart-empty">
-            <div className="cart-empty__visual">
-              <div className="cart-empty__icon-bg">
-                <ShoppingBag size={48} />
-              </div>
-              <div className="cart-empty__sparkle cart-empty__sparkle--1">✦</div>
-              <div className="cart-empty__sparkle cart-empty__sparkle--2">✧</div>
-              <div className="cart-empty__sparkle cart-empty__sparkle--3">✦</div>
-            </div>
-            <h1 className="cart-empty__title">Giỏ hàng trống</h1>
-            <p className="cart-empty__text">
-              Khám phá ngay bộ sưu tập len sợi cao cấp và thú bông handmade dễ thương!
-            </p>
-            <div className="cart-empty__actions">
-              <Link to="/len-soi" className="btn btn-primary">
-                🧶 Xem Len Sợi
-              </Link>
-              <Link to="/thu-bong" className="btn btn-secondary">
-                🧸 Xem Thú Bông
-              </Link>
-            </div>
+      <main className="min-h-screen flex flex-col items-center justify-center gap-6 text-center px-6" style={{ paddingTop: '112px' }}>
+        <ShoppingBag size={64} className="text-gray-200" />
+        <div>
+          <h1 className="font-serif text-3xl font-bold text-[#171717] mb-2">Giỏ Hàng Trống</h1>
+          <p className="text-[#6B7280] mb-8">Bạn chưa có sản phẩm nào trong giỏ hàng.</p>
+          <div className="flex gap-4 justify-center">
+            <Link to="/len-soi" className="px-6 py-3 border border-[#171717] text-xs tracking-widest uppercase font-medium hover:bg-[#171717] hover:text-white transition-all duration-300">
+              Len Sợi
+            </Link>
+            <Link to="/thu-bong" className="px-6 py-3 bg-[#171717] text-white text-xs tracking-widest uppercase font-medium hover:bg-[#D4829A] transition-all duration-300">
+              Thú Bông
+            </Link>
           </div>
         </div>
       </main>
@@ -50,200 +27,86 @@ const Cart = () => {
   }
 
   return (
-    <main className="cart-page">
-      <div className="container">
-        {/* Header */}
-        <div className="cart-page__header">
-          <div>
-            <Link to="/" className="cart-page__back">
-              <ArrowLeft size={18} />
-              <span>Tiếp tục mua sắm</span>
-            </Link>
-            <h1 className="cart-page__title">
-              <ShoppingBag size={28} />
-              Giỏ hàng của bạn
-            </h1>
-            <p className="cart-page__subtitle">
-              Bạn có <strong>{cartCount}</strong> sản phẩm trong giỏ hàng
-            </p>
+    <main className="max-w-6xl mx-auto px-6 py-12" style={{ paddingTop: '112px' }}>
+      <h1 className="font-serif text-3xl md:text-4xl font-bold text-[#171717] mb-10">Giỏ Hàng</h1>
+
+      <div className="flex flex-col lg:flex-row gap-12">
+        {/* Table */}
+        <div className="flex-1">
+          <div className="hidden md:grid grid-cols-[2fr_1fr_1fr_1fr_auto] gap-4 pb-3 border-b border-gray-100 text-xs tracking-widest uppercase text-[#6B7280] font-medium">
+            <span>Sản Phẩm</span>
+            <span className="text-center">Giá</span>
+            <span className="text-center">Số Lượng</span>
+            <span className="text-center">Tổng</span>
+            <span />
           </div>
-          <button className="cart-page__clear" onClick={clearCart}>
-            <Trash2 size={16} />
-            Xóa tất cả
-          </button>
+
+          <ul className="divide-y divide-gray-100">
+            {cartItems.map(item => (
+              <li key={item.id} className="py-6 grid grid-cols-1 md:grid-cols-[2fr_1fr_1fr_1fr_auto] gap-4 items-center">
+                <div className="flex items-center gap-4">
+                  <div className="w-20 h-20 bg-[#F5F0EB] flex-shrink-0">
+                    <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                  </div>
+                  <div>
+                    <p className="font-medium text-sm text-[#171717]">{item.name}</p>
+                    <p className="text-xs text-[#6B7280] mt-0.5">{item.category}</p>
+                  </div>
+                </div>
+                <p className="text-sm text-[#D4829A] font-semibold md:text-center">{formatPrice(item.price)}</p>
+                <div className="flex items-center md:justify-center">
+                  <div className="flex items-center border border-gray-200">
+                    <button onClick={() => updateQuantity(item.id, item.quantity - 1)} className="px-3 py-1.5 text-xs hover:bg-gray-50">−</button>
+                    <span className="px-4 py-1.5 text-sm border-x border-gray-200">{item.quantity}</span>
+                    <button onClick={() => updateQuantity(item.id, item.quantity + 1)} className="px-3 py-1.5 text-xs hover:bg-gray-50">+</button>
+                  </div>
+                </div>
+                <p className="text-sm font-semibold text-[#171717] md:text-center">{formatPrice(item.price * item.quantity)}</p>
+                <button onClick={() => removeFromCart(item.id)} className="text-[#6B7280] hover:text-red-500 transition-colors justify-self-end">
+                  <Trash2 size={15} />
+                </button>
+              </li>
+            ))}
+          </ul>
+
+          <div className="mt-4 flex justify-between items-center">
+            <button onClick={clearCart} className="text-xs text-[#6B7280] hover:text-red-500 tracking-widest uppercase transition-colors">
+              Xóa Tất Cả
+            </button>
+            <Link to="/len-soi" className="text-xs tracking-widest uppercase text-[#171717] hover:text-[#D4829A] transition-colors">
+              ← Tiếp Tục Mua Sắm
+            </Link>
+          </div>
         </div>
 
-        <div className="cart-page__layout">
-          {/* Items Column */}
-          <div className="cart-page__items-col">
-            {/* Table Header (Desktop) */}
-            <div className="cart-table__header">
-              <span className="cart-table__col cart-table__col--product">Sản phẩm</span>
-              <span className="cart-table__col cart-table__col--price">Đơn giá</span>
-              <span className="cart-table__col cart-table__col--qty">Số lượng</span>
-              <span className="cart-table__col cart-table__col--subtotal">Thành tiền</span>
-              <span className="cart-table__col cart-table__col--action"></span>
-            </div>
-
-            {/* Items */}
-            {cartItems.map((item, index) => {
-              const discount = item.originalPrice
-                ? Math.round(((item.originalPrice - item.price) / item.originalPrice) * 100)
-                : null;
-
-              return (
-                <div
-                  key={item.id}
-                  className="cart-table__row"
-                  style={{ animationDelay: `${index * 0.05}s` }}
-                >
-                  {/* Product */}
-                  <div className="cart-table__cell cart-table__cell--product">
-                    <div className="cart-table__image-wrapper">
-                      <img src={item.image} alt={item.name} className="cart-table__image" />
-                      {discount && (
-                        <span className="cart-table__badge">-{discount}%</span>
-                      )}
-                    </div>
-                    <div className="cart-table__product-info">
-                      <h3 className="cart-table__product-name">{item.name}</h3>
-                      {item.material && (
-                        <span className="cart-table__product-meta">{item.material}</span>
-                      )}
-                      <div
-                        className="cart-table__product-color"
-                        style={{ backgroundColor: item.color }}
-                        title={item.color}
-                      />
-                    </div>
-                  </div>
-
-                  {/* Price */}
-                  <div className="cart-table__cell cart-table__cell--price">
-                    <span className="cart-table__price-label">Đơn giá</span>
-                    <span className="cart-table__price">{formatPrice(item.price)}</span>
-                    {item.originalPrice && (
-                      <span className="cart-table__original-price">
-                        {formatPrice(item.originalPrice)}
-                      </span>
-                    )}
-                  </div>
-
-                  {/* Quantity */}
-                  <div className="cart-table__cell cart-table__cell--qty">
-                    <span className="cart-table__price-label">Số lượng</span>
-                    <div className="cart-table__quantity">
-                      <button
-                        className="cart-table__qty-btn"
-                        onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                        disabled={item.quantity <= 1}
-                      >
-                        <Minus size={14} />
-                      </button>
-                      <input
-                        type="number"
-                        className="cart-table__qty-input"
-                        value={item.quantity}
-                        min="1"
-                        max="99"
-                        onChange={(e) => {
-                          const val = parseInt(e.target.value) || 1;
-                          updateQuantity(item.id, Math.max(1, Math.min(99, val)));
-                        }}
-                      />
-                      <button
-                        className="cart-table__qty-btn"
-                        onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                      >
-                        <Plus size={14} />
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Subtotal */}
-                  <div className="cart-table__cell cart-table__cell--subtotal">
-                    <span className="cart-table__price-label">Thành tiền</span>
-                    <span className="cart-table__subtotal">
-                      {formatPrice(item.price * item.quantity)}
-                    </span>
-                  </div>
-
-                  {/* Remove */}
-                  <div className="cart-table__cell cart-table__cell--action">
-                    <button
-                      className="cart-table__remove"
-                      onClick={() => removeFromCart(item.id)}
-                      aria-label="Xóa sản phẩm"
-                    >
-                      <X size={18} />
-                    </button>
-                  </div>
+        {/* Summary */}
+        <div className="lg:w-72 flex-shrink-0">
+          <div className="bg-[#F5F0EB] p-6">
+            <p className="text-xs tracking-widest uppercase font-semibold mb-6">Tóm Tắt Đơn Hàng</p>
+            <div className="space-y-3 text-sm mb-6">
+              <div className="flex justify-between">
+                <span className="text-[#6B7280]">Tạm tính</span>
+                <span>{formatPrice(cartOriginalTotal)}</span>
+              </div>
+              {cartSavings > 0 && (
+                <div className="flex justify-between text-[#7BAE7F]">
+                  <span>Tiết kiệm</span>
+                  <span>−{formatPrice(cartSavings)}</span>
                 </div>
-              );
-            })}
+              )}
+              <div className="flex justify-between">
+                <span className="text-[#6B7280]">Vận chuyển</span>
+                <span className="text-[#7BAE7F]">Miễn phí</span>
+              </div>
+              <div className="border-t border-gray-200 pt-3 flex justify-between font-semibold text-base">
+                <span>Tổng</span>
+                <span className="text-[#D4829A]">{formatPrice(cartTotal)}</span>
+              </div>
+            </div>
+            <button className="w-full py-3.5 bg-[#171717] text-white text-xs tracking-widest uppercase font-medium hover:bg-[#D4829A] transition-all duration-300">
+              Tiến Hành Thanh Toán
+            </button>
           </div>
-
-          {/* Summary Column */}
-          <aside className="cart-page__summary">
-            <div className="cart-summary">
-              <h2 className="cart-summary__title">Tóm tắt đơn hàng</h2>
-
-              <div className="cart-summary__rows">
-                <div className="cart-summary__row">
-                  <span>Tạm tính ({cartCount} sản phẩm)</span>
-                  <span>{formatPrice(cartOriginalTotal)}</span>
-                </div>
-
-                {cartSavings > 0 && (
-                  <div className="cart-summary__row cart-summary__row--savings">
-                    <span>
-                      <Sparkles size={14} />
-                      Tiết kiệm
-                    </span>
-                    <span>-{formatPrice(cartSavings)}</span>
-                  </div>
-                )}
-
-                <div className="cart-summary__row">
-                  <span>
-                    <Truck size={14} />
-                    Phí vận chuyển
-                  </span>
-                  <span className="cart-summary__free">Miễn phí</span>
-                </div>
-
-                <div className="cart-summary__row cart-summary__total">
-                  <span>Tổng cộng</span>
-                  <span>{formatPrice(cartTotal)}</span>
-                </div>
-              </div>
-
-              <button className="btn btn-primary cart-summary__checkout">
-                Tiến hành đặt hàng
-              </button>
-
-              <Link to="/len-soi" className="cart-summary__continue">
-                <ArrowLeft size={14} />
-                Tiếp tục mua sắm
-              </Link>
-
-              {/* Trust Badges */}
-              <div className="cart-summary__trust">
-                <div className="cart-summary__trust-item">
-                  <Shield size={16} />
-                  <span>Thanh toán an toàn</span>
-                </div>
-                <div className="cart-summary__trust-item">
-                  <Truck size={16} />
-                  <span>Giao hàng toàn quốc</span>
-                </div>
-                <div className="cart-summary__trust-item">
-                  <Gift size={16} />
-                  <span>Đóng gói cẩn thận</span>
-                </div>
-              </div>
-            </div>
-          </aside>
         </div>
       </div>
     </main>

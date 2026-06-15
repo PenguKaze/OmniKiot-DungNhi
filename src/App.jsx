@@ -1,4 +1,5 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { CartProvider } from './context/CartContext';
 import { ShopProvider } from './context/ShopContext';
 import Header from './components/Header';
@@ -14,28 +15,48 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Cart from './pages/Cart';
 
+const AUTH_PATHS = ['/login', '/register'];
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+}
+
+function AppContent() {
+  const { pathname } = useLocation();
+  const isAuthPage = AUTH_PATHS.includes(pathname);
+
+  return (
+    <div className="app">
+      {!isAuthPage && <Header />}
+      {!isAuthPage && <CartDrawer />}
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/len-soi" element={<Products productType="len-soi" />} />
+        <Route path="/thu-bong" element={<Products productType="thu-bong" />} />
+        <Route path="/day-nghe" element={<Courses />} />
+        <Route path="/kien-thuc" element={<Knowledge />} />
+        <Route path="/gioi-thieu" element={<About />} />
+        <Route path="/lien-he" element={<Contact />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/gio-hang" element={<Cart />} />
+      </Routes>
+      {!isAuthPage && <Footer />}
+    </div>
+  );
+}
+
 function App() {
   return (
     <ShopProvider>
       <CartProvider>
         <Router>
-        <div className="app">
-          <Header />
-          <CartDrawer />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/len-soi" element={<Products productType="len-soi" />} />
-            <Route path="/thu-bong" element={<Products productType="thu-bong" />} />
-            <Route path="/day-nghe" element={<Courses />} />
-            <Route path="/kien-thuc" element={<Knowledge />} />
-            <Route path="/gioi-thieu" element={<About />} />
-            <Route path="/lien-he" element={<Contact />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/gio-hang" element={<Cart />} />
-          </Routes>
-          <Footer />
-        </div>
+          <ScrollToTop />
+          <AppContent />
         </Router>
       </CartProvider>
     </ShopProvider>

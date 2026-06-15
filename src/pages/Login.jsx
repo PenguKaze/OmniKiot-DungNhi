@@ -2,39 +2,24 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 const Login = () => {
-  const navigate = useNavigate();
-  const [formData, setFormData] = useState({ email: '', password: '' });
-  const [loading, setLoading] = useState(false);
+  const [form, setForm] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
     setError('');
-
+    setLoading(true);
     try {
       const res = await fetch('http://localhost:3001/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(form),
       });
-      
       const data = await res.json();
-      
-      if (!res.ok) {
-        throw new Error(data.message || 'Đăng nhập thất bại');
-      }
-
-      localStorage.setItem('accessToken', data.accessToken);
-      if (data.workspace?.slug) {
-        localStorage.setItem('workspaceSlug', data.workspace.slug);
-      }
-      
-      // Chuyển hướng người dùng sau khi đăng nhập thành công
+      if (!res.ok) throw new Error(data.message || 'Đăng nhập thất bại');
+      localStorage.setItem('token', data.token);
       navigate('/');
     } catch (err) {
       setError(err.message);
@@ -44,48 +29,63 @@ const Login = () => {
   };
 
   return (
-    <main className="auth-page">
-      <div className="auth-container">
-        <h1 className="auth-title">Đăng Nhập</h1>
-        <p className="auth-subtitle">Quản lý cửa hàng của bạn</p>
-        
-        {error && <div className="auth-error">{error}</div>}
-
-        <form className="auth-form" onSubmit={handleSubmit}>
-          <div className="auth-form__group">
-            <label>Email quản trị</label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="admin@example.com"
-              required
-            />
-          </div>
-
-          <div className="auth-form__group">
-            <label>Mật khẩu</label>
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              placeholder="Nhập mật khẩu"
-              required
-            />
-          </div>
-
-          <button type="submit" className="auth-form__submit" disabled={loading}>
-            {loading ? 'Đang kiểm tra...' : 'Đăng Nhập'}
-          </button>
-        </form>
-
-        <p className="auth-redirect">
-          Chưa có cửa hàng? <Link to="/register">Tạo mới ngay</Link>
-        </p>
+    <div className="min-h-screen grid grid-cols-1 md:grid-cols-2">
+      {/* Image side */}
+      <div className="hidden md:block relative overflow-hidden">
+        <img src="/background_2.png" alt="Login" className="w-full h-full object-cover" />
+        <div className="absolute inset-0 bg-black/30 flex items-end p-12">
+          <p className="font-serif text-4xl font-bold text-white tracking-widest uppercase leading-tight">
+            Len Sợi<br />Dung Nhi
+          </p>
+        </div>
       </div>
-    </main>
+
+      {/* Form side */}
+      <div className="flex items-center justify-center px-8 py-16 bg-white">
+        <div className="w-full max-w-sm">
+          <p className="text-xs tracking-widest uppercase text-[#6B7280] mb-2">Chào mừng trở lại</p>
+          <h1 className="font-serif text-3xl font-bold text-[#171717] mb-10">Đăng Nhập</h1>
+
+          {error && (
+            <div className="bg-red-50 text-red-600 text-sm px-4 py-3 mb-6 border border-red-100">
+              {error}
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="space-y-8">
+            {[
+              { name: 'email', label: 'Email', type: 'email' },
+              { name: 'password', label: 'Mật khẩu', type: 'password' },
+            ].map(field => (
+              <div key={field.name} className="border-b border-gray-200 pb-2 focus-within:border-[#D4829A] transition-colors">
+                <label className="block text-[10px] tracking-widest uppercase text-[#6B7280] mb-2">{field.label}</label>
+                <input
+                  type={field.type}
+                  required
+                  value={form[field.name]}
+                  onChange={e => setForm({ ...form, [field.name]: e.target.value })}
+                  className="w-full text-sm text-[#171717] bg-transparent outline-none"
+                />
+              </div>
+            ))}
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full py-3.5 bg-[#171717] text-white text-xs tracking-widest uppercase font-medium hover:bg-[#D4829A] transition-all duration-300 disabled:opacity-60"
+            >
+              {loading ? 'Đang đăng nhập...' : 'Đăng Nhập'}
+            </button>
+          </form>
+
+          <p className="text-sm text-[#6B7280] text-center mt-8">
+            Chưa có tài khoản?{' '}
+            <Link to="/register" className="text-[#171717] font-medium hover:text-[#D4829A] transition-colors underline">
+              Đăng ký
+            </Link>
+          </p>
+        </div>
+      </div>
+    </div>
   );
 };
 
