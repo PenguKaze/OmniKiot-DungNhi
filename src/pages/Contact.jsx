@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronRight, MapPin, Phone, Mail, Clock, Send, MessageCircle, Facebook, Music } from 'lucide-react';
-import './Contact.css';
 
 const contactInfo = [
   {

@@ -4,7 +4,6 @@ import { Search, SlidersHorizontal, X, ChevronRight, RotateCcw, Palette } from '
 import ProductCard from '../components/ProductCard';
 import { products, categories, colors, productTypes, getProductsByType, getCategoriesByType } from '../data/products';
 import { sortProductsByColorSimilarity, colorSimilarity, hexToRgb } from '../utils/colorUtils';
-import './Products.css';
 
 const Products = ({ productType }) => {
   const [searchParams, setSearchParams] = useSearchParams();

@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, Truck, Shield, Gift, Headphones } from 'lucide-react';
 import ProductCard from '../components/ProductCard';
 import { products, categories, productTypes, getProductsByType, getCategoriesByType } from '../data/products';
-import './Home.css';
 
 const Home = () => {
   const featuredProducts = products.filter(p => p.badge === 'new' || p.rating >= 4.7).slice(0, 8);

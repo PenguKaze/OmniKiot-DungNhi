@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronRight, Clock, Eye, ArrowRight, BookOpen } from 'lucide-react';
-import './Knowledge.css';
 
 const categories = [
   { id: 'tat-ca', name: 'Tất cả' },

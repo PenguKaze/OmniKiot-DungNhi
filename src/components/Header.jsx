@@ -4,7 +4,6 @@ import { ShoppingBag, Search, Menu, X, Heart } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useHeaderConfig } from '../context/ShopContext';
 import logoImg from '../assets/dung_nhi_handmade-removebg.png';
-import './Header.css';
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);

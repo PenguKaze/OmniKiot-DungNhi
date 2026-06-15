@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import { ChevronRight, Clock, Users, Star, BookOpen, Award, Play } from 'lucide-react';
-import './Courses.css';
 
 const courses = [
   {

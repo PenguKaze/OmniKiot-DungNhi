@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import { ChevronRight, Heart, Award, Users, Sparkles, CheckCircle } from 'lucide-react';
-import './About.css';
 
 const milestones = [
   { year: '2020', title: 'Khởi đầu', desc: 'Bắt đầu từ niềm đam mê đan móc len và chia sẻ với bạn bè.' },

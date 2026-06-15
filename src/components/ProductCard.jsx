@@ -2,7 +2,6 @@ import { ShoppingBag, Heart, Star, Check } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { formatPrice, categories } from '../data/products';
 import { useCart } from '../context/CartContext';
-import './ProductCard.css';
 
 const ProductCard = ({ product, showSimilarity, similarity }) => {
   const { addToCart, isInCart } = useCart();

@@ -5,7 +5,6 @@ import {
 } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { formatPrice } from '../data/products';
-import './Cart.css';
 
 const Cart = () => {
   const {

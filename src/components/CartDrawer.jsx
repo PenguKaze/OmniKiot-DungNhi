@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { X, ShoppingBag, Plus, Minus, Trash2, ArrowRight, Sparkles } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { formatPrice } from '../data/products';
-import './CartDrawer.css';
 
 const CartDrawer = () => {
   const {
