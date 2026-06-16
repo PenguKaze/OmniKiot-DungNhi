@@ -1,87 +1,158 @@
 import { Link } from 'react-router-dom';
-import { Facebook, Instagram, Youtube } from 'lucide-react';
+import { Instagram, Facebook, Youtube } from 'lucide-react';
+
+const footerColumns = [
+  {
+    title: 'Len Sợi',
+    links: [
+      { label: 'Len Cotton', to: '/len-soi' },
+      { label: 'Len Acrylic', to: '/len-soi' },
+      { label: 'Len Wool', to: '/len-soi' },
+      { label: 'Phụ Kiện', to: '/len-soi' },
+    ],
+  },
+  {
+    title: 'Thú Bông',
+    links: [
+      { label: 'Gấu Bông', to: '/thu-bong' },
+      { label: 'Thú Nhỏ', to: '/thu-bong' },
+      { label: 'Nhân Vật', to: '/thu-bong' },
+      { label: 'Móc Chìa Khóa', to: '/thu-bong' },
+    ],
+  },
+  {
+    title: 'Liên Hệ',
+    links: [
+      { label: 'TP. Hồ Chí Minh, Việt Nam', to: '/lien-he' },
+      { label: '0123 456 789', to: '/lien-he' },
+      { label: 'hello@dungnhi.vn', to: '/lien-he' },
+      { label: '8:00 – 21:00 hàng ngày', to: '/lien-he' },
+    ],
+  },
+];
 
 const Footer = () => (
-  <footer className="bg-[#171717] text-white">
-    <div className="max-w-7xl mx-auto px-6 py-16">
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
-        {/* Brand */}
-        <div>
-          <p className="font-serif text-xl font-bold tracking-widest uppercase mb-4">Dung Nhi</p>
-          <p className="text-sm text-[#6B7280] leading-relaxed max-w-xs">
-            Handmade với tình yêu — len sợi cao cấp và thú bông handmade từ Việt Nam.
-          </p>
-          <div className="flex gap-4 mt-6">
-            {[
-              { Icon: Facebook, href: '#', label: 'Facebook' },
-              { Icon: Instagram, href: '#', label: 'Instagram' },
-              { Icon: Youtube, href: '#', label: 'YouTube' },
-            ].map(({ Icon, href, label }) => (
-              <a
-                key={label}
-                href={href}
-                aria-label={label}
-                className="text-[#6B7280] hover:text-[#D4829A] transition-colors duration-200"
-              >
-                <Icon size={18} />
-              </a>
-            ))}
+  <footer style={{ backgroundColor: '#171717', color: '#fff', fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif" }}>
+    {/* Top section: nav columns */}
+    <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '80px 48px 60px' }}>
+      <div style={{ display: 'flex', gap: '80px' }}>
+        {footerColumns.map(({ title, links }) => (
+          <div key={title}>
+            <p
+              style={{
+                fontSize: '12px',
+                fontWeight: 700,
+                letterSpacing: '0.12em',
+                textTransform: 'uppercase',
+                color: 'rgba(255,255,255,0.4)',
+                marginBottom: '20px',
+                marginTop: 0,
+              }}
+            >
+              {title}
+            </p>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              {links.map(({ label, to }) => (
+                <li key={label}>
+                  <Link
+                    to={to}
+                    style={{
+                      color: '#fff',
+                      textDecoration: 'none',
+                      fontSize: '15px',
+                      fontWeight: 400,
+                      opacity: 1,
+                      transition: 'opacity 0.2s',
+                    }}
+                    onMouseEnter={e => (e.currentTarget.style.opacity = '0.5')}
+                    onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
+                  >
+                    {label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
-        </div>
-
-        {/* Len Sợi */}
-        <div>
-          <p className="text-xs tracking-widest uppercase font-semibold mb-6">Len Sợi</p>
-          <ul className="space-y-3">
-            {['Len Cotton', 'Len Acrylic', 'Len Wool', 'Phụ Kiện'].map(item => (
-              <li key={item}>
-                <Link to="/len-soi" className="text-sm text-[#6B7280] hover:text-white transition-colors duration-200">
-                  {item}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Thú Bông */}
-        <div>
-          <p className="text-xs tracking-widest uppercase font-semibold mb-6">Thú Bông</p>
-          <ul className="space-y-3">
-            {['Gấu Bông', 'Thú Nhỏ', 'Nhân Vật', 'Móc Chìa Khóa'].map(item => (
-              <li key={item}>
-                <Link to="/thu-bong" className="text-sm text-[#6B7280] hover:text-white transition-colors duration-200">
-                  {item}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Liên hệ */}
-        <div>
-          <p className="text-xs tracking-widest uppercase font-semibold mb-6">Liên Hệ</p>
-          <ul className="space-y-3 text-sm text-[#6B7280]">
-            <li>📍 TP. Hồ Chí Minh, Việt Nam</li>
-            <li>📞 0123 456 789</li>
-            <li>✉️ hello@dungnhi.vn</li>
-            <li>🕐 8:00 – 21:00 hàng ngày</li>
-          </ul>
-        </div>
+        ))}
       </div>
+    </div>
 
-      {/* Big brand text */}
-      <div className="border-t border-[#2a2a2a] pt-8 overflow-hidden">
-        <p
-          className="font-serif font-black text-center text-[#6B7280] tracking-[0.3em] uppercase select-none"
-          style={{ fontSize: 'clamp(2.5rem, 10vw, 8rem)', opacity: 0.15 }}
-        >
-          DUNG NHI
-        </p>
-      </div>
-
-      <p className="text-center text-xs text-[#6B7280] mt-4">
-        © 2024 Len Sợi Dung Nhi. All rights reserved.
+    {/* Giant brand wordmark — bottom-right */}
+    <div style={{ display: 'flex', justifyContent: 'flex-end', overflow: 'hidden', lineHeight: 1 }}>
+      <p
+        style={{
+          fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
+          fontWeight: 900,
+          fontSize: 'clamp(2.5rem, 6vw, 6rem)',
+          lineHeight: 0.85,
+          color: '#fff',
+          margin: 0,
+          paddingRight: '48px',
+          letterSpacing: '-0.03em',
+          textTransform: 'uppercase',
+          userSelect: 'none',
+          whiteSpace: 'nowrap',
+        }}
+      >
+        DUNG NHI
       </p>
+    </div>
+
+    {/* Bottom bar */}
+    <div
+      style={{
+        maxWidth: '1400px',
+        margin: '0 auto',
+        padding: '20px 48px',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        borderTop: '1px solid rgba(255,255,255,0.08)',
+        flexWrap: 'wrap',
+        gap: '12px',
+      }}
+    >
+      {/* Left: Social */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+        <span style={{ fontSize: '13px', color: 'rgba(255,255,255,0.4)' }}>Theo dõi</span>
+        {[
+          { Icon: Instagram, href: '#', label: 'Instagram' },
+          { Icon: Facebook, href: '#', label: 'Facebook' },
+          { Icon: Youtube, href: '#', label: 'YouTube' },
+        ].map(({ Icon, href, label }) => (
+          <a
+            key={label}
+            href={href}
+            aria-label={label}
+            style={{ color: '#fff', display: 'flex', alignItems: 'center', transition: 'opacity 0.2s' }}
+            onMouseEnter={e => (e.currentTarget.style.opacity = '0.4')}
+            onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
+          >
+            <Icon size={16} />
+          </a>
+        ))}
+      </div>
+
+      {/* Right: Copyright + policy */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
+        <span style={{ fontSize: '13px', color: '#fff' }}>© 2024 Len Sợi Dung Nhi.</span>
+        {['Chính Sách Bảo Mật', 'Điều Khoản Dịch Vụ'].map(text => (
+          <a
+            key={text}
+            href="#"
+            style={{
+              fontSize: '13px',
+              color: 'rgba(255,255,255,0.4)',
+              textDecoration: 'none',
+              transition: 'color 0.2s',
+            }}
+            onMouseEnter={e => (e.currentTarget.style.color = '#fff')}
+            onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.4)')}
+          >
+            {text}
+          </a>
+        ))}
+      </div>
     </div>
   </footer>
 );

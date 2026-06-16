@@ -18,17 +18,24 @@ const NAV_LINKS = [
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
+  const [announcementVisible, setAnnouncementVisible] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeMenu, setActiveMenu] = useState(null);
   const location = useLocation();
   const { cartCount, toggleCart } = useCart();
   const hCfg = useHeaderConfig();
   const leaveTimer = useRef(null);
+  const lastScrollY = useRef(0);
 
   const isHome = location.pathname === '/';
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 60);
+    const handleScroll = () => {
+      const current = window.scrollY;
+      setScrolled(current > 60);
+      setAnnouncementVisible(current < lastScrollY.current || current < 10);
+      lastScrollY.current = current;
+    };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -58,11 +65,11 @@ const Header = () => {
 
   return (
     <>
-      <AnnouncementBar />
+      <AnnouncementBar visible={announcementVisible} />
 
       <header
-        className={`fixed left-0 right-0 z-40 transition-all duration-300 ${headerBg}`}
-        style={{ top: '32px' }}
+        className={`fixed left-0 right-0 z-[90] transition-all duration-300 ${headerBg}`}
+        style={{ top: announcementVisible ? '32px' : '0px' }}
       >
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-16">
 
@@ -79,7 +86,7 @@ const Header = () => {
             {NAV_LINKS.map(({ to, label, hasMega }) => (
               <div
                 key={to}
-                className="relative"
+                className={hasMega ? "" : "relative"}
                 onMouseEnter={() => handleNavEnter(label, hasMega)}
               >
                 <Link
