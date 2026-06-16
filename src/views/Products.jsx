@@ -1,3 +1,4 @@
+'use client';
 import { useState, useEffect } from 'react';
 import { SlidersHorizontal } from 'lucide-react';
 import FilterSidebar from '../components/ui/FilterSidebar';

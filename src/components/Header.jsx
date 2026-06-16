@@ -1,5 +1,7 @@
+'use client';
 import { useState, useEffect, useRef } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { ShoppingBag, Search, Menu, X } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useHeaderConfig } from '../context/ShopContext';
@@ -21,13 +23,13 @@ const Header = () => {
   const [announcementVisible, setAnnouncementVisible] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeMenu, setActiveMenu] = useState(null);
-  const location = useLocation();
+  const pathname = usePathname();
   const { cartCount, toggleCart } = useCart();
   const hCfg = useHeaderConfig();
   const leaveTimer = useRef(null);
   const lastScrollY = useRef(0);
 
-  const isHome = location.pathname === '/';
+  const isHome = pathname === '/';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -43,7 +45,7 @@ const Header = () => {
   useEffect(() => {
     setMenuOpen(false);
     setActiveMenu(null);
-  }, [location]);
+  }, [pathname]);
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : '';
@@ -75,7 +77,7 @@ const Header = () => {
 
           {/* Logo */}
           <Link
-            to="/"
+            href="/"
             className={`font-serif text-xl font-bold tracking-widest uppercase ${textColor} transition-colors duration-300`}
           >
             Dung Nhi
@@ -90,7 +92,7 @@ const Header = () => {
                 onMouseEnter={() => handleNavEnter(label, hasMega)}
               >
                 <Link
-                  to={to}
+                  href={to}
                   className={`text-xs tracking-widest uppercase font-medium transition-colors duration-200 ${textColor} hover:text-[#D4829A]`}
                 >
                   {label}
@@ -143,7 +145,7 @@ const Header = () => {
             {NAV_LINKS.map(({ to, label }) => (
               <Link
                 key={to}
-                to={to}
+                href={to}
                 className="text-white text-2xl font-serif tracking-widest uppercase hover:text-[#D4829A] transition-colors duration-200"
                 onClick={() => setMenuOpen(false)}
               >

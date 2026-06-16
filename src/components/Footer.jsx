@@ -1,4 +1,5 @@
-import { Link } from 'react-router-dom';
+'use client';
+import Link from 'next/link';
 import { Instagram, Facebook, Youtube } from 'lucide-react';
 
 const footerColumns = [
@@ -55,7 +56,7 @@ const Footer = () => (
               {links.map(({ label, to }) => (
                 <li key={label}>
                   <Link
-                    to={to}
+                    href={to}
                     style={{
                       color: '#fff',
                       textDecoration: 'none',

@@ -1,5 +1,6 @@
+'use client';
 import { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { X, Trash2, ShoppingBag } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { formatPrice } from '../data/products';
@@ -51,14 +52,14 @@ const CartDrawer = () => {
               </div>
               <div className="flex gap-3">
                 <Link
-                  to="/len-soi"
+                  href="/len-soi"
                   onClick={closeCart}
                   className="px-5 py-2.5 text-xs tracking-widest uppercase border border-[#171717] hover:bg-[#171717] hover:text-white transition-all duration-200"
                 >
                   Len Sợi
                 </Link>
                 <Link
-                  to="/thu-bong"
+                  href="/thu-bong"
                   onClick={closeCart}
                   className="px-5 py-2.5 text-xs tracking-widest uppercase bg-[#171717] text-white hover:bg-[#D4829A] transition-all duration-200"
                 >
@@ -113,7 +114,7 @@ const CartDrawer = () => {
               <span className="font-semibold text-[#171717]">{formatPrice(cartTotal)}</span>
             </div>
             <Link
-              to="/gio-hang"
+              href="/gio-hang"
               onClick={closeCart}
               className="block w-full text-center py-3.5 bg-[#171717] text-white text-xs tracking-widest uppercase font-medium hover:bg-[#D4829A] transition-all duration-300"
             >

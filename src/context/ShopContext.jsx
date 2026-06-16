@@ -1,3 +1,4 @@
+'use client';
 import { createContext, useContext, useState, useEffect } from 'react';
 
 // ─── Default config (dùng khi chưa có dữ liệu từ API) ───────────────────────

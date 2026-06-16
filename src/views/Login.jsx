@@ -1,11 +1,13 @@
+'use client';
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 const Login = () => {
   const [form, setForm] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,7 +22,7 @@ const Login = () => {
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || 'Đăng nhập thất bại');
       localStorage.setItem('token', data.token);
-      navigate('/');
+      router.push('/');
     } catch (err) {
       setError(err.message);
     } finally {
@@ -79,7 +81,7 @@ const Login = () => {
 
           <p className="text-sm text-[#6B7280] text-center mt-8">
             Chưa có tài khoản?{' '}
-            <Link to="/register" className="text-[#171717] font-medium hover:text-[#D4829A] transition-colors underline">
+            <Link href="/register" className="text-[#171717] font-medium hover:text-[#D4829A] transition-colors underline">
               Đăng ký
             </Link>
           </p>

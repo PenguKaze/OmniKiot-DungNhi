@@ -1,4 +1,6 @@
+'use client';
 import ScrollReveal from '../components/animation/ScrollReveal';
+import KnowledgeCard from '../components/knowledge/KnowledgeCard';
 
 const POSTS = [
   { id: 1, title: 'Cách chọn len sợi phù hợp cho người mới bắt đầu', excerpt: 'Hướng dẫn chi tiết về các loại len sợi phổ biến và cách chọn len phù hợp với từng dự án.', date: '10/06/2024', category: 'Hướng dẫn' },
@@ -12,28 +14,11 @@ const Knowledge = () => (
     <div className="relative h-48 md:h-64 overflow-hidden flex items-center justify-center bg-[#171717]">
       <h1 className="relative z-10 font-serif text-4xl md:text-6xl font-black text-white tracking-widest uppercase">Kiến Thức</h1>
     </div>
-
     <div className="max-w-5xl mx-auto px-6 py-16">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
         {POSTS.map((post, i) => (
           <ScrollReveal key={post.id} delay={i * 0.1}>
-            <article className="group cursor-pointer">
-              <div className="aspect-[16/9] bg-[#F5F0EB] mb-4 overflow-hidden flex items-center justify-center">
-                <span className="font-serif text-5xl text-[#D4829A] opacity-20">✦</span>
-              </div>
-              <div className="flex items-center gap-3 mb-2">
-                <span className="text-[10px] tracking-widest uppercase text-[#D4829A] font-medium">{post.category}</span>
-                <span className="text-[10px] text-[#6B7280]">•</span>
-                <span className="text-[10px] text-[#6B7280]">{post.date}</span>
-              </div>
-              <h2 className="font-serif text-xl font-bold text-[#171717] mb-2 group-hover:text-[#D4829A] transition-colors duration-200 leading-snug">
-                {post.title}
-              </h2>
-              <p className="text-sm text-[#6B7280] leading-relaxed">{post.excerpt}</p>
-              <span className="inline-block mt-4 text-xs tracking-widest uppercase border-b border-[#171717] pb-0.5 group-hover:border-[#D4829A] group-hover:text-[#D4829A] transition-all duration-200">
-                Đọc tiếp →
-              </span>
-            </article>
+            <KnowledgeCard post={post} />
           </ScrollReveal>
         ))}
       </div>

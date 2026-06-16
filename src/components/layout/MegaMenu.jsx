@@ -1,5 +1,6 @@
+'use client';
 import { useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import gsap from 'gsap';
 
 const MENUS = {
@@ -119,7 +120,7 @@ const MegaMenu = ({ item, onClose }) => {
                   {col.items.map(subItem => (
                     <li key={subItem.label}>
                       <Link
-                        to={subItem.path}
+                        href={subItem.path}
                         onClick={onClose}
                         className="text-xs font-semibold text-[#171717] hover:text-[#D4829A] transition-colors duration-200 tracking-wider uppercase"
                       >
@@ -134,7 +135,7 @@ const MegaMenu = ({ item, onClose }) => {
               {index === 0 && (
                 <div className="mt-8">
                   <Link
-                    to={menu.path}
+                    href={menu.path}
                     onClick={onClose}
                     className="inline-flex items-center gap-2 text-xs tracking-widest uppercase font-bold text-[#171717] hover:text-[#D4829A] transition-colors duration-200 border-b border-black pb-0.5"
                   >
@@ -161,7 +162,7 @@ const MegaMenu = ({ item, onClose }) => {
               </div>
               <div className="mt-3">
                 <Link
-                  to={feat.path}
+                  href={feat.path}
                   onClick={onClose}
                   className="text-[10px] tracking-widest uppercase font-bold text-[#171717] hover:opacity-50 transition-opacity duration-200 border-b border-black pb-0.5 inline-block"
                 >
